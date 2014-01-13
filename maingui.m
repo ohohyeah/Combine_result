@@ -80,7 +80,12 @@ varargout{1} = handles.output;
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
 folder_name = uigetdir;
+
 outputname = strcat(folder_name, '\combined_result.xls');
+%rename the sheets
+sheetnames = {'record','mean','sigma','SE'};
+xlsheets(sheetnames,outputname);
+
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
 
 %if(exist(outputname,'file') == 0)
