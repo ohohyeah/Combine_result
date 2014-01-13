@@ -96,11 +96,11 @@ attribute_mean ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox
 %end
 %folder是整理過的動物資料編號
 datefiles = dir(folder_name);
-%date是其日期
 
+%mean sigma SE 之column編號
+column_constant = [2 10 14];
 %L R_normalized L   R_ori 在excel檔案裏面第一次出現的時候
-mean_column_constant = [5 9 6 10];
-
+mean_row_constant = [5 9 6 10];
 
 %每次與上一次差9
 diff_constant = [9 9 9 9];
@@ -130,9 +130,9 @@ for i = 3 : length(datefiles)-1
     
     %after all data in the same date have done
      [num,txt,raw] = xlsread(outputname,1);
-     temp_mean = [raw(mean_column_constant(3),2), raw(mean_column_constant(4),2) raw(mean_column_constant(1),2), raw(mean_column_constant(2),2) ];
+     temp_mean = [raw(mean_row_constant(3),2), raw(mean_row_constant(4),2) raw(mean_row_constant(1),2), raw(mean_row_constant(2),2) ];
      temp_write = [{datefiles(i,1).name} temp_mean];
-     mean_column_constant =mean_column_constant + diff_constant;
+     mean_row_constant =mean_row_constant + diff_constant;
      xlsappend(outputname, temp_write, 2 );
      
 end
