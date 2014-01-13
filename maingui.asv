@@ -102,7 +102,7 @@ datefiles = dir(folder_name);
 
 %mean sigma SE 之column編號
 column_constant = [2 10 14];
-%L R_normalized L   R_ori 在excel檔案裏面第一次出現的時候
+%L R_normalizedL   R_ori 在excel檔案裏面第一次出現的時候
 row_constant = [5 9 6 10];
 
 %每次與上一次差9

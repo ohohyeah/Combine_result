@@ -88,13 +88,13 @@ sheetnames = {'record','redox_mean','redox_sigma','redox_SE'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
-attribute_others ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox'};
+attribute_others ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox', 'R/L_ori', 'R/L_nor'};
 
 %if(exist(outputname,'file') == 0)
     xlswrite(outputname, attribute,'A1:V1',1);
-    xlswrite(outputname, attribute_others,2,'A1:E1');
-    xlswrite(outputname, attribute_others,3,'A1:E1');
-    xlswrite(outputname, attribute_others,4,'A1:E1');
+    xlswrite(outputname, attribute_others,2,'A1:G1');
+    xlswrite(outputname, attribute_others,3,'A1:G1');
+    xlswrite(outputname, attribute_others,4,'A1:G1');
     disp('start writing ');
 %end
 %folder是整理過的動物資料編號
@@ -102,7 +102,7 @@ datefiles = dir(folder_name);
 
 %mean sigma SE 之column編號
 column_constant = [2 10 14];
-%L R_normalized L   R_ori 在excel檔案裏面第一次出現的時候
+%L R_normalizedL   R_ori 在excel檔案裏面第一次出現的時候
 row_constant = [5 9 6 10];
 
 %每次與上一次差9
@@ -134,16 +134,21 @@ for i = 3 : length(datefiles)-1
     %after all data in the same date have done
      [num,txt,raw] = xlsread(outputname,1);
      temp_num = [raw(row_constant(3),column_constant(1)), raw(row_constant(4),column_constant(1)) raw(row_constant(1),column_constant(1)), raw(row_constant(2),column_constant(1)) ];
-     ratio =(num(row_constant(4)-1,column_constant(1)) /num(row_constant(3)-1,column_constant(1)));
-     temp_write = [{datefiles(i,1).name},temp_num,ratio];
+     ratio_ori =(num(row_constant(4)-1,column_constant(1)) /num(row_constant(3)-1,column_constant(1)));
+     ratio_nor =(num(row_constant(2)-1,column_constant(1)) /num(row_constant(1)-1,column_constant(1)));
+     temp_write = [{datefiles(i,1).name},temp_num,ratio_ori, ratio_nor];
      xlsappend(outputname, temp_write, 2 );
            
      temp_num = [raw(row_constant(3),column_constant(2)), raw(row_constant(4),column_constant(2)) raw(row_constant(1),column_constant(2)), raw(row_constant(2),column_constant(2)) ];
-     temp_write = [{datefiles(i,1).name} temp_num];
+     ratio_ori =(num(row_constant(4)-1,column_constant(2)) /num(row_constant(3)-1,column_constant(2)));
+     ratio_nor =(num(row_constant(2)-1,column_constant(2)) /num(row_constant(1)-1,column_constant(2)));
+     temp_write = [{datefiles(i,1).name},temp_num,ratio_ori, ratio_nor];
      xlsappend(outputname, temp_write, 3 );
      
      temp_num = [raw(row_constant(3),column_constant(3)), raw(row_constant(4),column_constant(3)) raw(row_constant(1),column_constant(3)), raw(row_constant(2),column_constant(3)) ];
-     temp_write = [{datefiles(i,1).name} temp_num];
+      ratio_ori =(num(row_constant(4)-1,column_constant(3)) /num(row_constant(3)-1,column_constant(3)));
+     ratio_nor =(num(row_constant(2)-1,column_constant(3)) /num(row_constant(1)-1,column_constant(3)));
+     temp_write = [{datefiles(i,1).name},temp_num,ratio_ori, ratio_nor];
      xlsappend(outputname, temp_write, 4 );
      
      row_constant =row_constant + diff_constant;
