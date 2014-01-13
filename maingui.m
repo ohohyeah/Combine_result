@@ -79,9 +79,10 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
+clc;
 folder_name = uigetdir;
 
-outputname = strcat(folder_name, '\combined_result.xls');
+outputname = strcat(folder_name, '\combined_result.xlsx');
 %rename the sheets
 sheetnames = {'record','mean','sigma','SE'};
 xlsheets(sheetnames,outputname);
@@ -89,7 +90,7 @@ xlsheets(sheetnames,outputname);
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
 
 %if(exist(outputname,'file') == 0)
-    xlswrite(outputname, attribute, record);
+    xlswrite(outputname, attribute,'A1:V1',1);
     disp('start writing ');
 %end
 %folder是整理過的動物資料編號
@@ -101,7 +102,7 @@ for i = 3 : length(datefiles)
     %當日底下的資料
     disp(datefiles(i,1).name);
     if(datefiles(i,1).isdir)
-        xlsappend(outputname, {datefiles(i,1).name}, record );
+        xlsappend(outputname, {datefiles(i,1).name}, 1);
     end
     imagefiles = dir(currentdate);
     for j = 3:length(imagefiles)
@@ -110,7 +111,7 @@ for i = 3 : length(datefiles)
             
            if(exist(filename,'file') ==2 )
                [num,txt,raw] = xlsread(filename);
-               xlsappend(outputname, raw, record );
+               xlsappend(outputname, raw, 1 );
                
               % disp(filename)
               
