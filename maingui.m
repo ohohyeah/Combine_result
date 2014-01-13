@@ -100,7 +100,7 @@ datefiles = dir(folder_name);
 %mean sigma SE 之column編號
 column_constant = [2 10 14];
 %L R_normalized L   R_ori 在excel檔案裏面第一次出現的時候
-mean_row_constant = [5 9 6 10];
+row_constant = [5 9 6 10];
 
 %每次與上一次差9
 diff_constant = [9 9 9 9];
@@ -130,9 +130,9 @@ for i = 3 : length(datefiles)-1
     
     %after all data in the same date have done
      [num,txt,raw] = xlsread(outputname,1);
-     temp_mean = [raw(mean_row_constant(3),column_constant(1)), raw(mean_row_constant(4),column_constant(1)) raw(mean_row_constant(1),column_constant(1)), raw(mean_row_constant(2),column_constant(1)) ];
+     temp_mean = [raw(row_constant(3),column_constant(1)), raw(row_constant(4),column_constant(1)) raw(row_constant(1),column_constant(1)), raw(row_constant(2),column_constant(1)) ];
      temp_write = [{datefiles(i,1).name} temp_mean];
-     mean_row_constant =mean_row_constant + diff_constant;
+     row_constant =row_constant + diff_constant;
      xlsappend(outputname, temp_write, 2 );
      
 end
