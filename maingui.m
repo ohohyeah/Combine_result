@@ -88,9 +88,10 @@ sheetnames = {'record','redox_mean','redox_sigma','redox_SE'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
-
+attribute_mean ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox'};
 %if(exist(outputname,'file') == 0)
     xlswrite(outputname, attribute,'A1:V1',1);
+    xlswrite(outputname, attribute_mean,2,'A1:E1');
     disp('start writing ');
 %end
 %folder是整理過的動物資料編號
@@ -101,11 +102,11 @@ datefiles = dir(folder_name);
 temp_mean = zeros(1,4);
 classification_pattern = {'L_normal_redox_ratio_normalized.bmp', 'L_normal_redox_ratio.bmp','R_normal_redox_ratio_normalized.bmp', 'R_normal_redox_ratio.bmp'};
 %L/R_redox_normalized L/R_redox_ori 在excel檔案裏面第一次出現的時候
-column_constant = [5 9 6 10];
+mean_column_constant = [5 9 6 10];
 %每次與上一次差9
 diff_constant = [9 9 9 9];
 
-for i = 3 : length(datefiles)
+for i = 3 : length(datefiles)-1
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
     %當日底下的資料
     disp(datefiles(i,1).name);
@@ -130,8 +131,10 @@ for i = 3 : length(datefiles)
     
     %after all data in the same date have done
      [num,txt,raw] = xlsread(outputname,1);
-     temp_mean = [raw(column_constant(3),2), raw(column_constant(4),2) raw(column_constant(1),2), raw(column_constant(2),2) ]
-     column_constant =column_constant + diff_constant;
+     temp_mean = [raw(mean_column_constant(3),2), raw(mean_column_constant(4),2) raw(mean_column_constant(1),2), raw(mean_column_constant(2),2) ];
+     temp_write = [{datefiles(i,1).name} temp_mean];
+     mean_column_constant =mean_column_constant + diff_constant;
+     xlsappend(outputname, temp_write, 2 );
      
 end
 
