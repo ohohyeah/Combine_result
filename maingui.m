@@ -98,11 +98,10 @@ attribute_mean ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox
 datefiles = dir(folder_name);
 %date是其日期
 
-
-temp_mean = zeros(1,4);
-classification_pattern = {'L_normal_redox_ratio_normalized.bmp', 'L_normal_redox_ratio.bmp','R_normal_redox_ratio_normalized.bmp', 'R_normal_redox_ratio.bmp'};
-%L/R_redox_normalized L/R_redox_ori 在excel檔案裏面第一次出現的時候
+%L R_normalized L   R_ori 在excel檔案裏面第一次出現的時候
 mean_column_constant = [5 9 6 10];
+
+
 %每次與上一次差9
 diff_constant = [9 9 9 9];
 
