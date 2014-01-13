@@ -84,7 +84,7 @@ folder_name = uigetdir;
 
 outputname = strcat(folder_name, '\combined_result.xlsx');
 %rename the sheets
-sheetnames = {'record','mean','sigma','SE'};
+sheetnames = {'record','redox_mean','redox_sigma','redox_SE'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
@@ -102,6 +102,7 @@ for i = 3 : length(datefiles)
     %當日底下的資料
     disp(datefiles(i,1).name);
     if(datefiles(i,1).isdir)
+        %put the date name of current file in the attribute 'record'
         xlsappend(outputname, {datefiles(i,1).name}, 1);
     end
     imagefiles = dir(currentdate);
@@ -110,7 +111,9 @@ for i = 3 : length(datefiles)
            filename = strcat(currentdate,'\',imagefiles(j,1).name, '\','result_new.xls');
             
            if(exist(filename,'file') ==2 )
-               [num,txt,raw] = xlsread(filename);
+               %read the 'record' sheet
+               [num,txt,raw] = xlsread(filename,1);
+  
                xlsappend(outputname, raw, 1 );
                
               % disp(filename)

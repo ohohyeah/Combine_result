@@ -41,8 +41,7 @@ if nargout
 else
     gui_mainfcn(gui_State, varargin{:});
     
-    init % 初始化
-   global attribute = {'date','avg_gray','avg_red' 'avg_green' 'avg_blue' 'std_gray''std_red' 'std_green' 'std_blue'  's_std_gray' 's_std_red' 's_std_green' 's_std_blue'  'SEM_gray' 'SEM_red' 'SEM_green' 'SEM_blue''SD_gray' 'SD_red' 'SD_green' 'SD_blue'};
+   % init % 初始化
 
 end
 % End initialization code - DO NOT EDIT
@@ -80,11 +79,18 @@ varargout{1} = handles.output;
 
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
+clc;
 folder_name = uigetdir;
-outputname = strcat(folder_name, '\combined_result.xls');
+
+outputname = strcat(folder_name, '\combined_result.xlsx');
+%rename the sheets
+sheetnames = {'record','mean','sigma','SE'};
+xlsheets(sheetnames,outputname);
+
+attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
 
 %if(exist(outputname,'file') == 0)
-    xlswrite(outputname,attribute );
+    xlswrite(outputname, attribute,'A1:V1',1);
     disp('start writing ');
 %end
 %folder是整理過的動物資料編號
@@ -96,16 +102,21 @@ for i = 3 : length(datefiles)
     %當日底下的資料
     disp(datefiles(i,1).name);
     if(datefiles(i,1).isdir)
-        xlsappend(outputname, {datefiles(i,1).name});
+        %put the date name of current file in the attribute 'record'
+        xlsappend(outputname, {datefiles(i,1).name}, 1);
     end
     imagefiles = dir(currentdate);
     for j = 3:length(imagefiles)
         if (imagefiles(j,1).isdir)
-           filename = strcat(currentdate,'\',imagefiles(j,1).name, '\','result.xls');
+           filename = strcat(currentdate,'\',imagefiles(j,1).name, '\','result_new.xls');
             
            if(exist(filename,'file') ==2 )
-               [num,txt,raw] = xlsread(filename);
-               xlsappend(outputname, raw);
+               %read the 'record' sheet
+               [num,txt,raw] = xlsread(filename, sheetnames(1));
+               
+               
+               
+               xlsappend(outputname, raw, 1 );
                
               % disp(filename)
               
