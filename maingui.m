@@ -97,6 +97,10 @@ attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_
 datefiles = dir(folder_name);
 %date是其日期
 
+
+temp_mean = zeros(1,4);
+classification_pattern = {'L_normal_redox_ratio_normalized.bmp', 'L_normal_redox_ratio.bmp','R_normal_redox_ratio_normalized.bmp', 'R_normal_redox_ratio.bmp'};
+
 for i = 3 : length(datefiles)
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
     %當日底下的資料
@@ -113,9 +117,11 @@ for i = 3 : length(datefiles)
            if(exist(filename,'file') ==2 )
                %read the 'record' sheet
                [num,txt,raw] = xlsread(filename,1);
-  
                xlsappend(outputname, raw, 1 );
                
+               if( strcmp(txt{1}, classification_pattern{1}) )
+                   disp('ss');
+               end
               % disp(filename)
               
                disp(imagefiles(j,1).name)
@@ -123,6 +129,8 @@ for i = 3 : length(datefiles)
             
         end
     end
+    
+    %
     
 end
 

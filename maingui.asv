@@ -84,7 +84,7 @@ folder_name = uigetdir;
 
 outputname = strcat(folder_name, '\combined_result.xlsx');
 %rename the sheets
-sheetnames = {'record','mean','sigma','SE'};
+sheetnames = {'record','redox_mean','redox_sigma','redox_SE'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_red','std_green','std_blue','s_std_gray','s_std_red','s_std_green','s_std_blue','SEM_gray','SEM_red','SEM_green','SEM_blue','SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
@@ -96,6 +96,10 @@ attribute = {'date','avg_gray','avg_red','avg_green','avg_blue','std_gray','std_
 %folder是整理過的動物資料編號
 datefiles = dir(folder_name);
 %date是其日期
+
+
+temp_mean = zeros(1,4);
+classification_pattern = {'L_normal_redox_pseudo_img_nomalized', 'L_normal_redox_pseudo_img_ori','R_normal_redox_pseudo_img_nomalized', 'R_normal_redox_pseudo_img_ori'};
 
 for i = 3 : length(datefiles)
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
@@ -112,12 +116,12 @@ for i = 3 : length(datefiles)
             
            if(exist(filename,'file') ==2 )
                %read the 'record' sheet
-               [num,txt,raw] = xlsread(filename, sheetnames(1));
-               
-               
-               
+               [num,txt,raw] = xlsread(filename,1);
                xlsappend(outputname, raw, 1 );
-               
+               tempname = [txt{1}];
+               if( tempname ==classification_pattern{1} )
+                   disp('ss');
+               end
               % disp(filename)
               
                disp(imagefiles(j,1).name)
@@ -125,6 +129,8 @@ for i = 3 : length(datefiles)
             
         end
     end
+    
+    %
     
 end
 
