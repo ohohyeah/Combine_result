@@ -15,6 +15,12 @@ local.properties
 .classpath
 .settings/
 .loadpath
+*.bmp
+*.xls
+*.xlsx
+*.asv
+*.eps
+*.mat
 
 # External tool builders
 .externalToolBuilders/
