@@ -118,12 +118,6 @@ for i = 3 : length(datefiles)
                %read the 'record' sheet
                [num,txt,raw] = xlsread(filename,1);
                xlsappend(outputname, raw, 1 );
-               
-               if( strcmp(txt{1}, classification_pattern{1}) )
-                   disp('ss');
-               end
-              % disp(filename)
-              
                disp(imagefiles(j,1).name)
            end
             
