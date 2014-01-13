@@ -100,6 +100,10 @@ datefiles = dir(folder_name);
 
 temp_mean = zeros(1,4);
 classification_pattern = {'L_normal_redox_ratio_normalized.bmp', 'L_normal_redox_ratio.bmp','R_normal_redox_ratio_normalized.bmp', 'R_normal_redox_ratio.bmp'};
+%L/R_redox_normalized L/R_redox_ori 在excel檔案裏面第一次出現的時候
+column_constant = [5 9 6 10];
+%每次與上一次差9
+diff_constant = [9 9 9 9];
 
 for i = 3 : length(datefiles)
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
@@ -110,24 +114,26 @@ for i = 3 : length(datefiles)
         xlsappend(outputname, {datefiles(i,1).name}, 1);
     end
     imagefiles = dir(currentdate);
+    
     for j = 3:length(imagefiles)
         if (imagefiles(j,1).isdir)
-           filename = strcat(currentdate,'\',imagefiles(j,1).name, '\','result_new.xls');
-            
+           filename = strcat(currentdate,'\',imagefiles(j,1).name, '\','result_new.xls'); 
            if(exist(filename,'file') ==2 )
                %read the 'record' sheet
                [num,txt,raw] = xlsread(filename,1);
                xlsappend(outputname, raw, 1 );
-               disp(imagefiles(j,1).name)
+               disp(imagefiles(j,1).name);
            end
             
         end
     end
     
-    %
-    
+    %after all data in the same date have done
+     [num,txt,raw] = xlsread(outputname,1);
+     temp_mean = [raw(column_constant(3),2), raw(column_constant(4),2) raw(column_constant(1),2), raw(column_constant(2),2) ]
+     column_constant =column_constant + diff_constant;
+     
 end
-
 
 
 
