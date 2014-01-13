@@ -130,7 +130,7 @@ for i = 3 : length(datefiles)-1
     
     %after all data in the same date have done
      [num,txt,raw] = xlsread(outputname,1);
-     temp_mean = [raw(mean_row_constant(3),2), raw(mean_row_constant(4),2) raw(mean_row_constant(1),2), raw(mean_row_constant(2),2) ];
+     temp_mean = [raw(mean_row_constant(3),column_constant(1)), raw(mean_row_constant(4),column_constant(1)) raw(mean_row_constant(1),column_constant(1)), raw(mean_row_constant(2),column_constant(1)) ];
      temp_write = [{datefiles(i,1).name} temp_mean];
      mean_row_constant =mean_row_constant + diff_constant;
      xlsappend(outputname, temp_write, 2 );
