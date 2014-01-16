@@ -106,8 +106,6 @@ col_const = struct('mean', 2, 'sigma', 10 ,'se' , 14);
 row_const = struct('L_redox_nor', 5 ,'R_redox_nor', 9, 'L_redox_ori', 6 ,'R_redox_ori',10);
 % for adding value each round
 row_names = fieldnames(row_const);
-%每次與上一次差9
-diff_constant = [9 9 9 9];
 
 for i = 3 : length(datefiles)-1
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
