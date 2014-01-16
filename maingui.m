@@ -80,8 +80,15 @@ varargout{1} = handles.output;
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
 clc;
-folder_name = uigetdir;
-combine_results( folder_name );
+dir_name = uigetdir;
+wanttodo = [7,9,8];
+
+for i = 1 : length(wanttodo)
+    folder_name = [dir_name ,'\',num2str(wanttodo(i))];
+    combine_results( folder_name );
+end
+%}
+% combine_results( folder_name );
 
 
 

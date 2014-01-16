@@ -24,7 +24,7 @@ for i = 2 :length(sheetnames)
     
 end
 
-    disp('start writing ');
+    disp([folder_name 'start writing ']);
 %end
 %folder是整理過的動物資料編號
 datefiles = dir(folder_name);
