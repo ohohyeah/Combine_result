@@ -84,7 +84,7 @@ folder_name = uigetdir;
 
 outputname = strcat(folder_name, '\combined_result.xlsx');
 %rename the sheets
-sheetnames = {'record','redox_mean','redox_sigma','redox_SE', '335_intensity', '460_intensity'};
+sheetnames = {'record','redox_mean','redox_sigma','redox_SE', 'intensity_mean', 'intensity_sigma', 'intensity_SE'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue',...
@@ -93,7 +93,7 @@ attribute = {'date','avg_gray','avg_red','avg_green','avg_blue',...
     'SEM_gray','SEM_red','SEM_green','SEM_blue',...
     'SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
 attribute_redox ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox', 'R/L_ori', 'R/L_nor'};
-attribute_raw  = {'date', 'L_intensity', 'R_intensity'};
+attribute_raw  = {'date', 'L_335', 'R_335', 'L_460', 'R_460'};
 %if(exist(outputname,'file') == 0)
 
 xlswrite(outputname, attribute,'A1:V1',1);
