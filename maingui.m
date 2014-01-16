@@ -92,13 +92,20 @@ attribute = {'date','avg_gray','avg_red','avg_green','avg_blue',...
     's_std_gray','s_std_red','s_std_green','s_std_blue',...
     'SEM_gray','SEM_red','SEM_green','SEM_blue',...
     'SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
-attribute_others ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox', 'R/L_ori', 'R/L_nor'};
-
+attribute_redox ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox', 'R/L_ori', 'R/L_nor'};
+attribute_raw  = {'date', 'L_intensity', 'R_intensity'};
 %if(exist(outputname,'file') == 0)
-    xlswrite(outputname, attribute,'A1:V1',1);
-    xlswrite(outputname, attribute_others,2,'A1:G1');
-    xlswrite(outputname, attribute_others,3,'A1:G1');
-    xlswrite(outputname, attribute_others,4,'A1:G1');
+
+xlswrite(outputname, attribute,'A1:V1',1);
+for i = 2 :length(sheetnames)
+    if i <= 4 
+         xlswrite(outputname, attribute_redox,i,'A1:G1');
+    else
+         xlswrite(outputname, attribute_raw,i,'A1:C1');
+    end
+    
+end
+
     disp('start writing ');
 %end
 %folder是整理過的動物資料編號
@@ -133,7 +140,8 @@ for i = 3 : length(datefiles)-1
             
         end
     end
-    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, length(sheetnames) );
+    %length(sheetnames)
+    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, 4 );
 
      %the difference of each row is 9
      for j =1: length(row_names)
