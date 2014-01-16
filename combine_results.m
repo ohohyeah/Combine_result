@@ -1,6 +1,6 @@
 function [ ] = combine_results( folder_name )
 
-outputname = strcat(folder_name, '\combined_result.xlsx');
+outputname = strcat(folder_name, '\combined_result_v2.xlsx');
 %rename the sheets
 sheetnames = {'record','redox_mean','redox_sigma','redox_SE', 'intensity_mean', 'intensity_sigma', 'intensity_SE'};
 xlsheets(sheetnames,outputname);
@@ -58,9 +58,9 @@ for i = 3 : length(datefiles)-1
             
         end
     end
-    %length(sheetnames)
-    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, length() );
-
+    if(datefiles(i,1).isdir)
+         sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, length(sheetnames) );
+    end
      %the difference of each row is 9
      for j =1: length(row_names)
          row_const.(row_names{j,1}) = row_const.(row_names{j,1})+ 9 ;
