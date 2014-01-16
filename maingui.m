@@ -114,7 +114,8 @@ datefiles = dir(folder_name);
 %mean sigma SE 之column編號
 col_const = struct('mean', 2, 'sigma', 10 ,'se' , 14);
 %L R_normalizedL   R_ori 在excel檔案裏面第一次出現的時候
-row_const = struct('L_redox_nor', 5 ,'R_redox_nor', 9, 'L_redox_ori', 6 ,'R_redox_ori',10);
+row_const = struct('L_335', 3 ,'L_460', 4,'L_redox_nor', 5 ,'L_redox_ori', 6 ,...
+    'R_335', 7, 'R_460', 8, 'R_redox_nor', 9, 'R_redox_ori',10);
 % for adding value each round
 row_names = fieldnames(row_const);
 for i = 3 : length(datefiles)-1
@@ -140,7 +141,7 @@ for i = 3 : length(datefiles)-1
         end
     end
     %length(sheetnames)
-    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, 4 );
+    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, length(sheetnames) );
 
      %the difference of each row is 9
      for j =1: length(row_names)

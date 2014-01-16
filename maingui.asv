@@ -84,7 +84,7 @@ folder_name = uigetdir;
 
 outputname = strcat(folder_name, '\combined_result.xlsx');
 %rename the sheets
-sheetnames = {'record','redox_mean','redox_sigma','redox_SE', '335_intensity', '460_intensity'};
+sheetnames = {'record','redox_mean','redox_sigma','redox_SE', 'intensity_mean', 'intensity_sigma', 'intensity_SE'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue',...
@@ -93,12 +93,19 @@ attribute = {'date','avg_gray','avg_red','avg_green','avg_blue',...
     'SEM_gray','SEM_red','SEM_green','SEM_blue',...
     'SD_gray','SD_red','SD_green','SD_blue','number of pixels'};
 attribute_redox ={'date','L_ori_redox','R_ori_redox', 'L_nor_redox', 'R_nor_redox', 'R/L_ori', 'R/L_nor'};
-
+attribute_raw  = {'date', 'L_335', 'R_335', 'L_460', 'R_460'};
 %if(exist(outputname,'file') == 0)
-    xlswrite(outputname, attribute,'A1:V1',1);
-    xlswrite(outputname, attribute_redox,2,'A1:G1');
-    xlswrite(outputname, attribute_redox,3,'A1:G1');
-    xlswrite(outputname, attribute_redox,4,'A1:G1');
+
+xlswrite(outputname, attribute,'A1:V1',1);
+for i = 2 :length(sheetnames)
+    if i <= 4 
+         xlswrite(outputname, attribute_redox,i,'A1:G1');
+    else
+         xlswrite(outputname, attribute_raw,i,'A1:E1');
+    end
+    
+end
+
     disp('start writing ');
 %end
 %folder是整理過的動物資料編號
@@ -107,10 +114,10 @@ datefiles = dir(folder_name);
 %mean sigma SE 之column編號
 col_const = struct('mean', 2, 'sigma', 10 ,'se' , 14);
 %L R_normalizedL   R_ori 在excel檔案裏面第一次出現的時候
-row_const = struct('L_redox_nor', 5 ,'R_redox_nor', 9, 'L_redox_ori', 6 ,'R_redox_ori',10);
+row_const = struct('L_335', 3 ,'L_460', 4,'L_redox_nor', 5 ,'L_redox_ori', 6 ,...
+    R'R_redox_nor', 9, 'R_redox_ori',10);
 % for adding value each round
 row_names = fieldnames(row_const);
-col_names = fieldnames(col_const);
 for i = 3 : length(datefiles)-1
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
     %當日底下的資料
@@ -133,7 +140,8 @@ for i = 3 : length(datefiles)-1
             
         end
     end
-    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, length(sheetnames) );
+    %length(sheetnames)
+    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, 4 );
 
      %the difference of each row is 9
      for j =1: length(row_names)
