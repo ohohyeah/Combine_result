@@ -101,7 +101,7 @@ for i = 2 :length(sheetnames)
     if i <= 4 
          xlswrite(outputname, attribute_redox,i,'A1:G1');
     else
-         xlswrite(outputname, attribute_raw,i,'A1:C1');
+         xlswrite(outputname, attribute_raw,i,'A1:E1');
     end
     
 end
@@ -117,7 +117,6 @@ col_const = struct('mean', 2, 'sigma', 10 ,'se' , 14);
 row_const = struct('L_redox_nor', 5 ,'R_redox_nor', 9, 'L_redox_ori', 6 ,'R_redox_ori',10);
 % for adding value each round
 row_names = fieldnames(row_const);
-col_names = fieldnames(col_const);
 for i = 3 : length(datefiles)-1
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
     %當日底下的資料
