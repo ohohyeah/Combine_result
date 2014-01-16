@@ -106,7 +106,7 @@ col_const = struct('mean', 2, 'sigma', 10 ,'se' , 14);
 row_const = struct('L_redox_nor', 5 ,'R_redox_nor', 9, 'L_redox_ori', 6 ,'R_redox_ori',10);
 % for adding value each round
 row_names = fieldnames(row_const);
-
+col_names = fieldnames(col_const);
 for i = 3 : length(datefiles)-1
     currentdate = strcat(folder_name , '\', datefiles(i,1).name);
     %當日底下的資料
@@ -129,27 +129,8 @@ for i = 3 : length(datefiles)-1
             
         end
     end
-    
-    %after all data in the same date have done
-     [num,txt,raw] = xlsread(outputname,1);
-     temp_num = [raw(row_const.L_redox_ori,col_const.mean), raw(row_const.R_redox_ori,col_const.mean) raw(row_const.L_redox_nor,col_const.mean), raw(row_const.R_redox_nor,col_const.mean) ];
-     ratio_ori =(num(row_const.R_redox_ori-1,col_const.mean) /num(row_const.L_redox_ori-1,col_const.mean));
-     ratio_nor =(num(row_const.R_redox_nor-1,col_const.mean) /num(row_const.L_redox_nor-1,col_const.mean));
-     temp_write = [{datefiles(i,1).name},temp_num,ratio_ori, ratio_nor];
-     xlsappend(outputname, temp_write, 2 );
-           
-     temp_num = [raw(row_const.L_redox_ori,col_const.sigma), raw(row_const.R_redox_ori,col_const.sigma) raw(row_const.L_redox_nor,col_const.sigma), raw(row_const.R_redox_nor,col_const.sigma) ];
-     ratio_ori =(num(row_const.R_redox_ori-1,col_const.sigma) /num(row_const.L_redox_ori-1,col_const.sigma));
-     ratio_nor =(num(row_const.R_redox_nor-1,col_const.sigma) /num(row_const.L_redox_nor-1,col_const.sigma));
-     temp_write = [{datefiles(i,1).name},temp_num,ratio_ori, ratio_nor];
-     xlsappend(outputname, temp_write, 3 );
-     
-     temp_num = [raw(row_const.L_redox_ori ,col_const.se), raw(row_const.R_redox_ori ,col_const.se) raw(row_const.L_redox_nor,col_const.se), raw(row_const.R_redox_nor,col_const.se) ];
-      ratio_ori =(num(row_const.R_redox_ori-1 ,col_const.se) /num(row_const.L_redox_ori-1 ,col_const.se));
-     ratio_nor =(num(row_const.R_redox_nor-1 ,col_const.se) /num(row_const.L_redox_nor-1 ,col_const.se));
-     temp_write = [{datefiles(i,1).name},temp_num,ratio_ori, ratio_nor];
-     xlsappend(outputname, temp_write, 4 );
-     
+    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, 4 );
+
      %the difference of each row is 9
      for j =1: length(row_names)
          row_const.(row_names{j,1}) = row_const.(row_names{j,1})+ 9 ;
