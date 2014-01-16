@@ -102,7 +102,7 @@ datefiles = dir(folder_name);
 
 %mean sigma SE 之column編號
 column_constant = [2 10 14];
-%L R_normalizedL   R_ori 在excel檔案裏面第一次出現的時候
+%L R_normalizedL   L R_ori 在excel檔案裏面第一次出現的時候
 row_constant = [5 9 6 10];
 
 %每次與上一次差9
@@ -120,6 +120,7 @@ for i = 3 : length(datefiles)-1
     
     for j = 3:length(imagefiles)
         if (imagefiles(j,1).isdir)
+            %read the result_new.xls of ezch image
            filename = strcat(currentdate,'\',imagefiles(j,1).name, '\','result_new.xls'); 
            if(exist(filename,'file') ==2 )
                %read the 'record' sheet
