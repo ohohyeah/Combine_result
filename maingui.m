@@ -84,7 +84,7 @@ folder_name = uigetdir;
 
 outputname = strcat(folder_name, '\combined_result.xlsx');
 %rename the sheets
-sheetnames = {'record','redox_mean','redox_sigma','redox_SE'};
+sheetnames = {'record','redox_mean','redox_sigma','redox_SE', '335_intensity', '460_intensity'};
 xlsheets(sheetnames,outputname);
 
 attribute = {'date','avg_gray','avg_red','avg_green','avg_blue',...
@@ -133,7 +133,7 @@ for i = 3 : length(datefiles)-1
             
         end
     end
-    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, 4 );
+    sheetsappend(datefiles(i,1).name, outputname, row_const, col_const, length(sheetnames) );
 
      %the difference of each row is 9
      for j =1: length(row_names)
